@@ -12,3 +12,17 @@ SELECT CURRENT_DATE();
 SELECT ItemName, EXTRACT(MONTH FROM dateadded), dateadded
 FROM ChipotleMenu
 WHERE EXTRACT(MONTH FROM dateadded) = 3;
+
+-- Can you calculate and display the difference in days between the current date 
+--and the DateAdded for each item in the ChipotleMenu table?
+SELECT DATEDIFF('2024-08-15' - dateadded) AS difference
+FROM ChipotleMenu;
+--how to do it for each item 
+
+SELECT dateadded,EXTRACT(DOW FROM dateadded) AS dayofweek
+FROM ChipotleMenu;
+
+ SELECT DATEDIFF(datediscountinued - dateadded)
+ FROM ChipotleMenu'
+
+

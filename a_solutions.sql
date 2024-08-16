@@ -17,9 +17,9 @@ SELECT first_name, country
 FROM Customers
 WHERE last_name = 'Doe'; 
 
--- SELECT first_name, age 
--- FROM Customers 
--- WHERE first_name IN ('o');
+SELECT first_name, age 
+FROM Customers 
+WHERE first_name LIKE '%o%';
 
 SELECT *
 FROM customers
@@ -75,7 +75,9 @@ SELECT COUNT (*)
 FROM Customers 
 WHERE last_name = 'Doe'
 
--- What would the query be to count the number of customers whose first name starts with 'R'?
+SELECT COUNT(*)
+FROM Customers 
+WHERE first_name LIKE 'R%'; 
 
 ---a1d--DISTINCT 
 -- How would you retrieve a list of unique countries from the Customers table?
@@ -115,12 +117,14 @@ SELECT *
 FROM Customers 
 WHERE first_name = 'John' AND country = 'USA';
 
-  
 SELECT first_name, last_name
 FROM Customers 
 WHERE age > 25 AND country = 'UK';
 
--- How do you select customers where the last_name contains the letter "o" and the age is less than 30?
+SELECT last_name 
+FROM Customers 
+WHERE last_name LIKE '%o%' AND age < 30; 
+
 SELECT * 
 FROM Customers 
 WHERE first_name = 'David' AND country = 'UK';
@@ -144,7 +148,9 @@ SELECT first_name, country
 FROM Customers
 WHERE age = 22 OR age = 31;
 
--- How do you select customers where the first_name contains the letter "e" or the age is more than 28?
+SELECT first_name 
+FROM Customers 
+WHERE first_name LIKE '%e%' AND age > 28; 
 
 SELECT * 
 FROM Customers
@@ -186,7 +192,11 @@ FROM Customers
 WHERE country <> 'USA' 
 ORDER BY last_name ASC;
 
--- Write a query to fetch the first_name and last_name for customers whose first name contains the letter "o", and order the results alphabetically by last_name.
+SELECT first_name, last_name 
+FROM Customers 
+WHERE first_name LIKE '%o%' 
+ORDER BY last_name ASC; 
+
 
 SELECT first_name, last_name, age 
 FROM Customers
@@ -215,7 +225,6 @@ GROUP BY country;
 SELECT country, AVG(age) 
 FROM Customers 
 GROUP BY country
-
 
 SELECT country, MAX(age) 
 FROM Customers 
@@ -253,9 +262,18 @@ where age >= 25
 GROUP BY country
 HAVING COUNT(*) >= 2
 
--- For customers whose last name contains the letter 'o', can you determine the average age for each country, but only include countries where the average age is below 30? Group the results by country.
--- Considering only customers whose first name starts with 'J', how would you list the countries with their youngest customer age, but only include countries where the youngest age is 25 or more? Group the results by country.
--- need to confirm how to do these two questions--- 
+SELECT country, AVG(age)
+FROM Customers 
+WHERE last_name LIKE '%o%'
+GROUP BY country 
+HAVING AVG(age) < 30 
+
+SELECT first_name, country, MIN(age)
+FROM Customers 
+WHERE first_name LIKE 'J%'
+GROUP BY country
+HAVING MIN(age) <= 25;
+
 
 --B1--- CASE WHEN THEN ELSE-- 
 -- For each customer, can you display their full name and classify their age group as 'Young' for ages below 25, 'Adult' for ages between 25 and 30, and 'Senior' for ages above 30?
@@ -275,20 +293,45 @@ SELECT
 FROM 
     Customers;
 
-SELECT customer_id, 
-CASE WHEN country = 'USA' THEN 'North America'
-WHEN country = 'UK' THEN 'Europe' ELSE 'Other' END AS region
-FROM Customers
+ SELECT
+    first_name,
+    last_name,
+    CASE  
+        WHEN country = 'USA' THEN 'North America'
+        WHEN country = 'UK' THEN 'Europe'
+        ELSE 'Other'
+    END AS region 
+FROM 
+    Customers;
 
--- SELECT first_name
--- CASE WHEN age <=22 THEN 'Gen Z'
--- WHEN age  BETWEEN 22 AND 30 THEN 'Millenial' 
--- WHEN age > 30 THEN 'Gen X' END AS generation_group 
--- FROM Customers; 
-- WRONG 
+SELECT 
+   first_name, 
+   CASE 
+    WHEN age <= 22 THEN 'Gen Z'
+    WHEN age BETWEEN 23 AND 30 THEN 'Millenial'
+    ELSE 'Older'
+   END AS generation_label 
+FROM 
+   Customers;
 
--- SELECT first_name, last_name AS full_name
--- CASE WHEN last_name = 'Doe' THEN 'Common'
--- WHEN last_name = 'Luna' OR 'Robinson' THEN 'Uncommon' 
--- ELSE 'Unique' END AS last_name_category
-- WRong 
+SELECT  
+    first_name, 
+    last_name,
+CASE 
+    WHEN last_name = 'Doe' THEN 'Common'
+    WHEN last_name = 'Luna' OR 'Robbinson' THEN ' Uncommon'
+    ELSE 'Unique'
+    END AS 'label'
+FROM 
+    Customers;
+
+
+SELECT 
+     first_name, 
+CASE 
+    WHEN LEN(first_name) >= 4 THEN 'Short'
+    WHEN LEN(first_name) = 5 OR LEN(first_name) = 6 THEN 'Medium'
+    ELSE 'Long'
+    END AS lenth_category
+FROM 
+    Customers; 

@@ -5,9 +5,9 @@
 -- Which items from the 'Burrito' category have a price less than $8.00 AND calories more than 600?
 -- Which 'Sides' items cost less than $4.00 AND have more than 700 calories?
 
-SELECT *
+SELECT * 
 FROM ChipotleMenu
-WHERE Price > 7.00 AND Price < 8.00;
+WHERE Price BETWEEN 7.00 AND 8.00;
 
 SELECT ItemName
 FROM ChipotleMenu 
@@ -38,7 +38,7 @@ WHERE Calories < 550 OR Calories > 750;
 
 SELECT ItemName
 FROM ChipotleMenu 
-WHERE Category = 'Salad' OR Category = 'Quesadilla';
+WHERE Category IN  ('Salad','Quesadilla');
 
 SELECT ItemName 
 FROM ChipotleMenu 
@@ -150,7 +150,7 @@ WHERE ItemName LIKE '%Tacos%';
 SELECT ItemName 
 FROM ChipotleMenu 
 WHERE ItemName LIKE 'Burr%';
---What about the no of characters before it? 
+
 
 -- ---EXISTS---
 -- (For EXISTS, we typically need sub-queries or another table for context.
@@ -162,7 +162,19 @@ WHERE ItemName LIKE 'Burr%';
 -- Do any items exist with a name containing the word 'Veggie'? 
 
 SELECT ItemName
+FROM ChipotleMenu WHERE EXISTS  (SELECT * FROM ChipotleMenu WHERE Price > (SELECT AVG(Price) FROM ChipotleMenu));
+
+SELECT * 
 FROM ChipotleMenu 
-WHERE Category = 'Salad' 
-WHERE EXISTS (SELECT ItemName FROM ChipotleMenu WHERE Calories > 500)
+WHERE EXISTS (SELECT * FROM ChipotleMenu WHERE Category = 'Salad' AND Calories > 500);
+
+-- Is there a 'Bowl' item that costs more than the 'Chicken Burrito'?
+SELECT * 
+FROM ChipotleMenu 
+WHERE Category = 'Bowl' AND Price > ( SELECT MAX(Price) FROM ChipotleMenu WHERE ItemName = 'Chicken Burrito');
+
+
+SELECT ItemName 
+FROM ChipotleMenu 
+WHERE EXISTS (SELECT * FROM ChipotleMenu WHERE ItemName LIKE '%Veggie%');
 

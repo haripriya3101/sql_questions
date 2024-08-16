@@ -1,6 +1,6 @@
 -- Absolute Value:
 -- What's the absolute difference in price between the 'Chicken Burrito' and the 'Veggie Bowl'?
-
+SELECT ABS(7.5 - 7.8);
 
 -- Power:
 -- If you were to raise the price of the 'Steak Tacos' to the power of 2, what value would you get?
@@ -60,7 +60,8 @@ FROM ChipotleMenu
 WHERE Category = 'Burrito';
 
 -- Price Variation: What is the difference between the highest and lowest priced item on the menu
-
+SELECT MAX(Price) - MIN(Price)
+FROM ChipotleMenu;
 
 ------
 -- Average Fat for Bowls: What's the average fat content for all bowl items?
@@ -79,7 +80,12 @@ GROUP BY Calories
 HAVING Calories > AVG
 
 -- Standard Deviation of Prices: What is the standard deviation of the prices of all items? (This might require specific SQL functions like STDDEV depending on your SQL flavor)
+SELECT STDEV(Price)
+FROM ChipotleMenu;
+
 -- Total Protein from Tacos: How much total protein is there in all taco items combined?
+SELECT SUM(ProteinGrams)
+FROM ChipotleMenu;
 
 
        
