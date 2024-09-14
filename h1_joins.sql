@@ -91,7 +91,17 @@ GROUP BY itemname;
 
 ---OUTER JOIN----
 -- Can you provide a list of all ItemNames and OrderIDs, including items that haven't been ordered and orders without items?
+SELECT m.itemname, o.orderid
+FROM menuitems m 
+FULL OUTER JOIN orderdetails o ON m.itemid = o.itemid;
+
 -- How would you determine all ItemNames that have never been ordered and all OrderIDs that don't have a corresponding ItemName?
+SELECT m.itemname, o.orderid
+FROM menuitems m 
+FULL OUTER JOIN orderdetails o ON m.itemid = o.itemid;
+
 -- Which menu items and orders don't have a match in the other table?
+
 -- Using a FULL OUTER JOIN, how would you list the total orders for each menu item, including those with zero orders?
+
 -- Are there any menu items without orders or orders without valid menu items in the tables?
